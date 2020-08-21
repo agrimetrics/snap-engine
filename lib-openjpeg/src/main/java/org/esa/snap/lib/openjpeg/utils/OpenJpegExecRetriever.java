@@ -68,6 +68,7 @@ public class OpenJpegExecRetriever {
     }
 
     public static Path getOpenJPEGAuxDataPath() {
+        SystemUtils.LOG.info("OpenJPEG configuration getOpenJPEGAuxDataPath");
         Path versionFile = ResourceInstaller.findModuleCodeBasePath(OpenJpegExecRetriever.class).resolve("version").resolve("version.properties");
         Properties versionProp = new Properties();
 
@@ -89,14 +90,20 @@ public class OpenJpegExecRetriever {
     }
 
     private static String findOpenJpegExecPath(String endPath) {
+        SystemUtils.LOG.info("OpenJPEG configuration findOpenJpegExecPath " + endPath);
         if (endPath == null) {
+            SystemUtils.LOG.info("OpenJPEG configuration findOpenJpegExecPath NULL");
             return null;
         }
 
         Path path = getOpenJPEGAuxDataPath().resolve(endPath);
+        
         String pathString = null;
         if (path != null) {
+            SystemUtils.LOG.info("OpenJPEG configuration findOpenJpegExecPath path " + path.toString());
             pathString = path.toString();
+        } else {
+            SystemUtils.LOG.info("OpenJPEG configuration findOpenJpegExecPath path NULL");
         }
         return pathString;
     }
@@ -122,6 +129,8 @@ public class OpenJpegExecRetriever {
             this.decompressor = decompressor;
             this.dump = dump;
             this.codec = codec;
+            
+            SystemUtils.LOG.info("OpenJPEG configuration OSCategory " + directory + " " + compressor + " " + decompressor + " " + dump + " " + codec);
         }
 
         String getCompressor() {
@@ -142,6 +151,7 @@ public class OpenJpegExecRetriever {
             OSCategory category;
             if (IS_OS_LINUX) {
                 category = OSCategory.LINUX_64;
+                SystemUtils.LOG.info("OpenJPEG configuration OSCategory IS OS LINUX");
             } else if (IS_OS_MAC_OSX) {
                 category = OSCategory.MAC_OS_X;
             } else if (IS_OS_WINDOWS) {
@@ -152,6 +162,7 @@ public class OpenJpegExecRetriever {
                     category = OSCategory.WIN_32;
                 }
             } else {
+                SystemUtils.LOG.info("OpenJPEG configuration OSCategory UNSUPPORTED");
                 // we should never be here since we do not release installers for other systems.
                 category = OSCategory.UNSUPPORTED;
             }
